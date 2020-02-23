@@ -974,11 +974,17 @@ const core = __importStar(__webpack_require__(470));
 const fs = __importStar(__webpack_require__(747));
 const wait_1 = __webpack_require__(521);
 const exec = __importStar(__webpack_require__(986));
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
+    yield exec.exec('make', ['clone']);
+    callback('Done clone');
+});
 function cmds() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const ms = core.getInput('milliseconds');
             fs.writeFileSync('.junk', `stuff here: ${ms}`);
+            startAsync((text) => core.debug(text));
             const idRsa = core.getInput('id_rsa');
             fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`);
             const user = core.getInput('user');

@@ -1,6 +1,11 @@
 
 build:
+	rm -rf sshDocker
 	npm run all
+
+clone:
+	git clone https://github.com/mchirico/sshDocker.git
+
 
 runDocker:
 	cd sshDocker && \

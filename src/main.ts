@@ -3,11 +3,21 @@ import * as fs from 'fs'
 import {wait} from './wait'
 import * as exec from '@actions/exec'
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const startAsync = async (callback: {
+  (text: string): void
+  (arg0: string): void
+}) => {
+  await exec.exec('make', ['clone'])
+  callback('Done clone')
+}
+
 async function cmds(): Promise<void> {
   try {
     const ms: string = core.getInput('milliseconds')
     fs.writeFileSync('.junk', `stuff here: ${ms}`)
 
+    startAsync((text: string) => core.debug(text))
     const idRsa: string = core.getInput('id_rsa')
     fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`)
 
