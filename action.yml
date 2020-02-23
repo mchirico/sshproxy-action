@@ -1,0 +1,10 @@
+name: sshproxy-action)
+description: ssh remote proxy
+author: Mike Chirico, CWXSTAT cwxstat.io
+inputs:
+  myInput:              # change this
+    description: 'input description here'
+    default: 'default value if applicable'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

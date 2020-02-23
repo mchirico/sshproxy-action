@@ -1,0 +1,63 @@
+name: Docker Action
+on: [push]
+
+jobs:
+  docker_action_job:
+    runs-on: ubuntu-latest
+    name: A job to run an ssh client
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.OWNER }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+        gcloud components update --quiet
+
+
+    - name: Docker action step
+      id: mmcdocker
+      uses: mchirico/sshproxy-action@v1
+      with:
+        who-to-greet: 'Mona the Octocat'
+        id_rsa: ${{ secrets.SSH_PRIVATE_KEY }}
+        user: ${{ secrets.USER }}
+        server: ${{ secrets.SERVER }}
+      env: # For ssh
+        INPUT_MILLISECONDS: 500
+
+    # Use the output from the `hello` step
+    - name: Get the output time
+      run: |
+        echo "The time was ${{ steps.mmcdocker.outputs.time }}"
+
+
+
+    - name: Where am I
+      run: pwd
+
+    - name: Files created?
+      run: ls -l sshDocker/
+
+    - name: dockup up?
+      run: docker ps -a
+
+    - name: push
+      run: docker push gcr.io/pigdevonlyx/docker-action:test
+
+    - name: dockup log
+      run: docker logs docker-action
+
+
+
+
