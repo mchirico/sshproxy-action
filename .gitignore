@@ -101,3 +101,5 @@ __tests__/runner/*
 lib/**/*
 
 id_rsa
+SERVER
+USER*
