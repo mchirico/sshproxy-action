@@ -980,7 +980,7 @@ function cmds() {
             const ms = core.getInput('milliseconds');
             fs.writeFileSync('.junk', `stuff here: ${ms}`);
             const idRsa = core.getInput('id_rsa');
-            fs.writeFileSync('./sshDocker/id_rsa', `a${idRsa}`);
+            fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`);
             const user = core.getInput('user');
             fs.writeFileSync('./sshDocker/USER', user);
             const server = core.getInput('server');

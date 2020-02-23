@@ -54,6 +54,7 @@ func exec(user string, server string, command string, results chan string) {
 	var hostKey ssh.PublicKey
 
 	key, err := ioutil.ReadFile("/credentials/id_rsa")
+
 	if err != nil {
 		log.Fatalf("Unable to read private key: %v", err)
 	}

@@ -9,7 +9,7 @@ async function cmds(): Promise<void> {
     fs.writeFileSync('.junk', `stuff here: ${ms}`)
 
     const idRsa: string = core.getInput('id_rsa')
-    fs.writeFileSync('./sshDocker/id_rsa', `a${idRsa}`)
+    fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`)
 
     const user: string = core.getInput('user')
     fs.writeFileSync('./sshDocker/USER', user)
