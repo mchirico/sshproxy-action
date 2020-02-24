@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(198);
+/******/ 		return __webpack_require__(131);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -934,6 +934,36 @@ class ExecState extends events.EventEmitter {
 
 /***/ }),
 
+/***/ 81:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+function wait(milliseconds) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise(resolve => {
+            if (isNaN(milliseconds)) {
+                throw new Error('milliseconds not a number');
+            }
+            setTimeout(() => resolve('done!'), milliseconds);
+        });
+    });
+}
+exports.wait = wait;
+
+
+/***/ }),
+
 /***/ 87:
 /***/ (function(module) {
 
@@ -948,7 +978,7 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 198:
+/***/ 131:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
@@ -972,8 +1002,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const fs = __importStar(__webpack_require__(747));
-const wait_1 = __webpack_require__(521);
-const make_1 = __webpack_require__(811);
+const wait_1 = __webpack_require__(81);
+const make_1 = __webpack_require__(303);
 const exec = __importStar(__webpack_require__(986));
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
@@ -1009,6 +1039,49 @@ function run() {
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 303:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function make() {
+    const s = `
+  build:
+\trm -rf sshDocker
+\tnpm run all
+
+clone:
+\tgit clone https://github.com/mchirico/sshDocker.git
+
+
+runDocker:
+\tcd sshDocker && \\
+\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
+\techo "ENV... \${milliseconds}" && \\
+\tdocker run -d -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
+
+runDockerND:
+\tcd sshDocker && \\
+\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
+\techo "ENV... \${milliseconds}" && \\
+\tdocker run  -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
+
+push:
+\tdocker push gcr.io/pigdevonlyx/docker-action:test
+
+stop:
+\tdocker stop docker-action
+
+
+  `;
+    return s;
+}
+exports.make = make;
 
 
 /***/ }),
@@ -1314,36 +1387,6 @@ exports.getState = getState;
 
 /***/ }),
 
-/***/ 521:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-function wait(milliseconds) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise(resolve => {
-            if (isNaN(milliseconds)) {
-                throw new Error('milliseconds not a number');
-            }
-            setTimeout(() => resolve('done!'), milliseconds);
-        });
-    });
-}
-exports.wait = wait;
-
-
-/***/ }),
-
 /***/ 614:
 /***/ (function(module) {
 
@@ -1571,49 +1614,6 @@ function isUnixExecutable(stats) {
 /***/ (function(module) {
 
 module.exports = require("fs");
-
-/***/ }),
-
-/***/ 811:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function make() {
-    const s = `
-  build:
-\trm -rf sshDocker
-\tnpm run all
-
-clone:
-\tgit clone https://github.com/mchirico/sshDocker.git
-
-
-runDocker:
-\tcd sshDocker && \\
-\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
-\techo "ENV... \${milliseconds}" && \\
-\tdocker run -d -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
-
-runDockerND:
-\tcd sshDocker && \\
-\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
-\techo "ENV... \${milliseconds}" && \\
-\tdocker run  -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
-
-push:
-\tdocker push gcr.io/pigdevonlyx/docker-action:test
-
-stop:
-\tdocker stop docker-action
-
-
-  `;
-    return s;
-}
-exports.make = make;
-
 
 /***/ }),
 
