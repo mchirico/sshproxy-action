@@ -57,6 +57,7 @@
     "eslint-plugin-jest": "^23.8.0",
     "eslint-plugin-prettier": "^3.1.2",
     "graphql": "^14.6.0",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
     "jest-circus": "^24.7.1",
     "prettier": "^1.18.2",
