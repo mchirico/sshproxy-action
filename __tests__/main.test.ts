@@ -17,7 +17,7 @@ test('wait 500 ms', async () => {
 })
 
 // shows how the runner will run a javascript action with env / stdout protocol
-xtest('test runs', () => {
+test('test runs', () => {
   process.env['INPUT_MILLISECONDS'] = '500'
   process.env['server'] = 'SERVERdata'
   process.env['id_rsa'] = 'id_rsa'

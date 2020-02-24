@@ -978,47 +978,49 @@ const exec = __importStar(__webpack_require__(986));
 const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
     yield exec.exec('make', ['clone']);
     callback('Done clone');
+    const ms = core.getInput('milliseconds');
+    yield wait_1.wait(parseInt(ms, 10));
+    callback('Done wait');
+    const idRsa = core.getInput('id_rsa');
+    fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`);
+    const user = core.getInput('user');
+    fs.writeFileSync('./sshDocker/USER', user);
+    const server = core.getInput('server');
+    fs.writeFileSync('./sshDocker/SERVER', server);
+    yield exec.exec('make', ['runDocker']);
+    core.setOutput('time', `Exe...`);
+    callback('Done make');
 });
 function cmds() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const ms = core.getInput('milliseconds');
             fs.writeFileSync('.junk', `stuff here: ${ms}`);
-            startAsync((text) => core.debug(text));
-            const idRsa = core.getInput('id_rsa');
-            fs.writeFileSync('./sshDocker/id_rsa', `${idRsa}`);
-            const user = core.getInput('user');
-            fs.writeFileSync('./sshDocker/USER', user);
-            const server = core.getInput('server');
-            fs.writeFileSync('./sshDocker/SERVER', server);
-            yield exec.exec('make', ['runDocker']);
-            core.setOutput('time', `Exe...`);
-            core.debug(new Date().toTimeString());
-            yield wait_1.wait(parseInt(ms, 10));
-            core.debug(new Date().toTimeString());
+            startAsync((text) => {
+                core.debug(text);
+            });
         }
         catch (error) {
             core.setFailed(error.message);
         }
     });
 }
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            core.debug('here...');
-            const ms = core.getInput('milliseconds');
-            core.debug(`Waiting ${ms} milliseconds ...`);
-            core.debug(new Date().toTimeString());
-            yield wait_1.wait(parseInt(ms, 10));
-            core.debug(new Date().toTimeString());
-            core.setOutput('time', new Date().toTimeString());
-        }
-        catch (error) {
-            core.setFailed(error.message);
-        }
-    });
-}
-run();
+// async function run(): Promise<void> {
+//   try {
+//     core.debug('here...')
+//
+//     const ms: string = core.getInput('milliseconds')
+//     core.debug(`Waiting ${ms} milliseconds ...`)
+//
+//     core.debug(new Date().toTimeString())
+//     await wait(parseInt(ms, 10))
+//     core.debug(new Date().toTimeString())
+//
+//     core.setOutput('time', new Date().toTimeString())
+//   } catch (error) {
+//     core.setFailed(error.message)
+//   }
+// }
 cmds();
 
 
