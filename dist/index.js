@@ -973,6 +973,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const fs = __importStar(__webpack_require__(747));
 const wait_1 = __webpack_require__(521);
+const make_1 = __webpack_require__(811);
 const exec = __importStar(__webpack_require__(986));
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
@@ -991,11 +992,13 @@ const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () 
     core.setOutput('time', `Exe...`);
     callback('Done make');
 });
-function cmds() {
+function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const ms = core.getInput('milliseconds');
             fs.writeFileSync('.junk', `stuff here: ${ms}`);
+            const m = make_1.make();
+            fs.writeFileSync('Makefile', m);
             startAsync((text) => {
                 core.debug(text);
             });
@@ -1005,23 +1008,7 @@ function cmds() {
         }
     });
 }
-// async function run(): Promise<void> {
-//   try {
-//     core.debug('here...')
-//
-//     const ms: string = core.getInput('milliseconds')
-//     core.debug(`Waiting ${ms} milliseconds ...`)
-//
-//     core.debug(new Date().toTimeString())
-//     await wait(parseInt(ms, 10))
-//     core.debug(new Date().toTimeString())
-//
-//     core.setOutput('time', new Date().toTimeString())
-//   } catch (error) {
-//     core.setFailed(error.message)
-//   }
-// }
-cmds();
+run();
 
 
 /***/ }),
@@ -1584,6 +1571,49 @@ function isUnixExecutable(stats) {
 /***/ (function(module) {
 
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ 811:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function make() {
+    const s = `
+  build:
+\trm -rf sshDocker
+\tnpm run all
+
+clone:
+\tgit clone https://github.com/mchirico/sshDocker.git
+
+
+runDocker:
+\tcd sshDocker && \\
+\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
+\techo "ENV... \${milliseconds}" && \\
+\tdocker run -d -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
+
+runDockerND:
+\tcd sshDocker && \\
+\tdocker build --no-cache -t gcr.io/pigdevonlyx/docker-action:test -f Dockerfile . && \\
+\techo "ENV... \${milliseconds}" && \\
+\tdocker run  -p 3000:3000 --rm -it --name docker-action gcr.io/pigdevonlyx/docker-action:test
+
+push:
+\tdocker push gcr.io/pigdevonlyx/docker-action:test
+
+stop:
+\tdocker stop docker-action
+
+
+  `;
+    return s;
+}
+exports.make = make;
+
 
 /***/ }),
 

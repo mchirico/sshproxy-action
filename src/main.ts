@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as fs from 'fs'
 import {wait} from './wait'
+import {make} from './make'
 import * as exec from '@actions/exec'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -29,10 +30,12 @@ const startAsync = async (callback: {
   callback('Done make')
 }
 
-async function cmds(): Promise<void> {
+async function run(): Promise<void> {
   try {
     const ms: string = core.getInput('milliseconds')
     fs.writeFileSync('.junk', `stuff here: ${ms}`)
+    const makefile = make()
+    fs.writeFileSync('Makefile', makefile)
 
     startAsync((text: string) => {
       core.debug(text)
@@ -42,21 +45,4 @@ async function cmds(): Promise<void> {
   }
 }
 
-// async function run(): Promise<void> {
-//   try {
-//     core.debug('here...')
-//
-//     const ms: string = core.getInput('milliseconds')
-//     core.debug(`Waiting ${ms} milliseconds ...`)
-//
-//     core.debug(new Date().toTimeString())
-//     await wait(parseInt(ms, 10))
-//     core.debug(new Date().toTimeString())
-//
-//     core.setOutput('time', new Date().toTimeString())
-//   } catch (error) {
-//     core.setFailed(error.message)
-//   }
-// }
-
-cmds()
+run()
