@@ -1,3 +1,6 @@
+![Docker Action](https://github.com/mchirico/sshproxy-action/workflows/Docker%20Action/badge.svg)
+![Node.js CI](https://github.com/mchirico/sshproxy-action/workflows/Node.js%20CI/badge.svg)
+
 <p align="center">
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
