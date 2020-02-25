@@ -1005,7 +1005,6 @@ const fs = __importStar(__webpack_require__(747));
 const wait_1 = __webpack_require__(81);
 const make_1 = __webpack_require__(303);
 const exec = __importStar(__webpack_require__(986));
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
     yield exec.exec('mkdir', ['-p', '.sshproxy-action']);
     callback('.sshproxy-action');
