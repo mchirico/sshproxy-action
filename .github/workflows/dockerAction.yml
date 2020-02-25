@@ -62,6 +62,9 @@ jobs:
     - name: free
       run: free
 
+    - name: curl
+      run: curl http://localhost:3000/test
+
 
 
 
