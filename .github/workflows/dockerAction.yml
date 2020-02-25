@@ -14,7 +14,6 @@ jobs:
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
-        version: '270.0.0'
         service_account_key: ${{ secrets.OWNER }}
 
     # Configure docker to use the gcloud command-line tool as a credential helper
@@ -22,7 +21,7 @@ jobs:
         # Set up docker to authenticate
         # via gcloud command-line tool.
         gcloud auth configure-docker
-        gcloud components update --quiet
+        #gcloud components update --quiet
 
 
     - name: Docker action step
@@ -51,11 +50,17 @@ jobs:
     - name: dockup up?
       run: docker ps -a
 
-    - name: push
-      run: docker push gcr.io/pigdevonlyx/docker-action:test
+#    - name: push
+#      run: docker push gcr.io/pigdevonlyx/docker-action:test
 
     - name: dockup log
       run: docker logs docker-action
+
+    - name: space
+      run: df -h
+
+    - name: free
+      run: free
 
 
 

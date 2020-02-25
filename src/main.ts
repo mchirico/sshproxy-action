@@ -4,11 +4,10 @@ import {wait} from './wait'
 import {make} from './make'
 import * as exec from '@actions/exec'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const startAsync = async (callback: {
   (text: string): void
   (arg0: string): void
-}) => {
+}): Promise<void> => {
   await exec.exec('mkdir', ['-p', '.sshproxy-action'])
   callback('.sshproxy-action')
 
