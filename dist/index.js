@@ -1012,9 +1012,6 @@ const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () 
     fs.writeFileSync('.sshproxy-action/Makefile', makefile);
     yield exec.exec('make', ['-C', '.sshproxy-action', 'clone']);
     callback('Done clone');
-    const ms = core.getInput('milliseconds');
-    yield wait_1.wait(parseInt(ms, 10));
-    callback('Done wait');
     const idRsa = core.getInput('id_rsa');
     fs.writeFileSync('.sshproxy-action/sshDocker/id_rsa', `${idRsa}`);
     const user = core.getInput('user');
@@ -1024,6 +1021,9 @@ const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () 
     yield exec.exec('make', ['-C', '.sshproxy-action', 'runDocker']);
     core.setOutput('time', `Exe...`);
     callback('Done make');
+    const ms = core.getInput('milliseconds');
+    yield wait_1.wait(parseInt(ms, 10));
+    callback('Done wait');
 });
 function run() {
     return __awaiter(this, void 0, void 0, function* () {

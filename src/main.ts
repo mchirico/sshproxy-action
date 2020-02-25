@@ -17,10 +17,6 @@ const startAsync = async (callback: {
   await exec.exec('make', ['-C', '.sshproxy-action', 'clone'])
   callback('Done clone')
 
-  const ms: string = core.getInput('milliseconds')
-  await wait(parseInt(ms, 10))
-  callback('Done wait')
-
   const idRsa: string = core.getInput('id_rsa')
   fs.writeFileSync('.sshproxy-action/sshDocker/id_rsa', `${idRsa}`)
 
@@ -33,6 +29,10 @@ const startAsync = async (callback: {
   await exec.exec('make', ['-C', '.sshproxy-action', 'runDocker'])
   core.setOutput('time', `Exe...`)
   callback('Done make')
+
+  const ms: string = core.getInput('milliseconds')
+  await wait(parseInt(ms, 10))
+  callback('Done wait')
 }
 
 async function run(): Promise<void> {
