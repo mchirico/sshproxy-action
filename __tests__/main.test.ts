@@ -22,7 +22,7 @@ test('test runs', () => {
   process.env['server'] = 'SERVERdata'
   process.env['id_rsa'] = 'id_rsa'
   process.env['INPUT_USER'] = 'USER'
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
+  const ip = path.join(__dirname, '..', 'dist', 'index.js')
   const options: cp.ExecSyncOptions = {
     env: process.env
   }
