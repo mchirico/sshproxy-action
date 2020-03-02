@@ -1007,11 +1007,9 @@ const make_1 = __webpack_require__(303);
 const exec = __importStar(__webpack_require__(986));
 const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () {
     yield exec.exec('mkdir', ['-p', '.sshproxy-action']);
-    callback('.sshproxy-action');
     const makefile = make_1.make();
     fs.writeFileSync('.sshproxy-action/Makefile', makefile);
     yield exec.exec('make', ['-C', '.sshproxy-action', 'clone']);
-    callback('Done clone');
     const idRsa = core.getInput('id_rsa');
     fs.writeFileSync('.sshproxy-action/sshDocker/id_rsa', `${idRsa}`);
     const user = core.getInput('user');
@@ -1020,7 +1018,6 @@ const startAsync = (callback) => __awaiter(void 0, void 0, void 0, function* () 
     fs.writeFileSync('.sshproxy-action/sshDocker/SERVER', server);
     yield exec.exec('make', ['-C', '.sshproxy-action', 'runDocker']);
     core.setOutput('time', `Exe...`);
-    callback('Done make');
     const ms = core.getInput('milliseconds');
     yield wait_1.wait(parseInt(ms, 10));
     callback('Done wait');
