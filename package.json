@@ -54,7 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "@zeit/ncc": "^0.20.5",
-    "acorn": "^7.1.0",
+    "acorn": "^7.1.1",
     "acorn-jsx": "^5.1.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
