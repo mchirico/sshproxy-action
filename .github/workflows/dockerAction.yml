@@ -5,6 +5,8 @@ jobs:
   docker_action_job:
     runs-on: ubuntu-latest
     name: A job to run an ssh client
+
+    if: github.actor == github.event.repository.owner.login
     steps:
 
     - name: Check out code
